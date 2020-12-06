@@ -12,6 +12,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.13.5
+          terraform_wrapper: false  
           tf_actions_working_dir: 'infra/iac'
 
       - name: Terraform fmt
