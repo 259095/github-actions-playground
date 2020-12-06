@@ -1,4 +1,7 @@
 name: tests-terraform
+defaults:
+  run:
+    working-directory: infra/iac
 on:
   pull_request:
     paths:
@@ -15,15 +18,16 @@ jobs:
 
       - name: Terraform fmt
         id: fmt
-        run: cd infra/iac && terraform fmt -check
+        run: terraform fmt -check
+#        continue-on-error: true
 
       - name: Terraform Init
         id: init
-        run: cd infra/iac && terraform init
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
-        run: cd cd infra/iac && terraform validate -no-color
+        run: terraform validate -no-color
 
       # - name: Terraform Plan
       #   id: plan
