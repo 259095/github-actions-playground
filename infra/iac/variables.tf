@@ -1,20 +1,20 @@
 ### vpc
 
 variable "cidr" {
-    default = "10.0.0.0/16"
+  default = "10.0.0.0/16"
 }
 variable "enable_vpn_gateway" {
-    default = false
+  default = false
 }
 variable "enable_nat_gateway" {
-    default = true
+  default = true
 }
 variable "single_nat_gateway" {
-    default = true
+  default = true
 }
 variable "enable_dns_hostnames" {
-    default = true
+  default = true
 }
 variable "name" {
-    default = "iac-revenite"
+  default = "iac-revenite"
 }

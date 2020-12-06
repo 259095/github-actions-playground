@@ -1,44 +1,44 @@
 provider "aws" {
-  region                              = "eu-west-1"
+  region = "eu-west-1"
 }
 
 terraform {
   backend "s3" {
-    key                               = "terraform.tfstate"
-    bucket                            = "iac-revenite-tf"
-    region                            = "eu-west-1"
+    key    = "terraform.tfstate"
+    bucket = "iac-revenite-tf"
+    region = "eu-west-1"
   }
 }
 
 module "vpc-configuration" {
   source = "./terraform-aws-vpc-configuration"
 
-  cidr                                = var.cidr
+  cidr = var.cidr
 }
 
 module "vpc" {
   source = "./terraform-aws-vpc"
 
-  name                                = "${var.name}-dev"
+  name = "${var.name}-dev"
 
-  cidr                                = var.cidr
-  azs                                 = module.vpc-configuration.azs_names
-  private_subnets                     = module.vpc-configuration.private_subnets
-  public_subnets                      = module.vpc-configuration.public_subnets
+  cidr            = var.cidr
+  azs             = module.vpc-configuration.azs_names
+  private_subnets = module.vpc-configuration.private_subnets
+  public_subnets  = module.vpc-configuration.public_subnets
 
-  enable_nat_gateway                  = var.enable_nat_gateway
-  single_nat_gateway                  = var.single_nat_gateway
-  enable_vpn_gateway                  = var.enable_vpn_gateway
-  enable_dns_hostnames                = var.enable_dns_hostnames
+  enable_nat_gateway   = var.enable_nat_gateway
+  single_nat_gateway   = var.single_nat_gateway
+  enable_vpn_gateway   = var.enable_vpn_gateway
+  enable_dns_hostnames = var.enable_dns_hostnames
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.name}-dev" = "shared"
-    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/role/elb"                = "1"
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${var.name}-dev" = "shared"
-    "kubernetes.io/role/internal-elb" = "1"
+    "kubernetes.io/role/internal-elb"       = "1"
   }
 
 }
@@ -64,17 +64,17 @@ resource "aws_security_group" "all_worker_mgmt" {
 module "eks" {
   source = "./terraform-aws-eks"
 
-  cluster_name                        = "${var.name}-dev"
-  cluster_version                     = "1.17"
-  
-  subnets                             = module.vpc.private_subnets
-  vpc_id                              = module.vpc.vpc_id
+  cluster_name    = "${var.name}-dev"
+  cluster_version = "1.17"
+
+  subnets = module.vpc.private_subnets
+  vpc_id  = module.vpc.vpc_id
 
   worker_groups = [
     {
-      name                            = "worker-group-1"
-      instance_type                   = "t2.medium"
-      asg_desired_capacity            = 2
+      name                 = "worker-group-1"
+      instance_type        = "t2.medium"
+      asg_desired_capacity = 2
     }
   ]
 
