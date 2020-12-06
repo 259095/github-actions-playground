@@ -1,4 +1,14 @@
+provider "aws" {
+  region                              = "eu-west-1"
+}
 
+terraform {
+  backend "s3" {
+    key                               = "terraform.tfstate"
+    bucket                            = "iac-revenite-tf"
+    region                            = "eu-west-1"
+  }
+}
 
 module "vpc-configuration" {
   source = "./terraform-aws-vpc-configuration"
