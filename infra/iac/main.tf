@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     key                               = "terraform.tfstate"
     bucket                            = "iac-revenite-tf"
-    region                            = "eu-west-1"
+
   }
 }
 
@@ -41,7 +41,7 @@ module "vpc" {
     "kubernetes.io/role/internal-elb" = "1"
   }
 
-}
+
 
 # TBD replace below resource with a module
 resource "aws_security_group" "all_worker_mgmt" {
