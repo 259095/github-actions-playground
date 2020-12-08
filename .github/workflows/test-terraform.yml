@@ -50,17 +50,18 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `
-            Format and Style \`${{ steps.fmt.outcome }}\`
-            Initialization   \`${{ steps.init.outcome }}\`
-            Validation         ${{ steps.validate.outputs.stdout }}
-            Plan             \`${{ steps.plan.outcome }}\`
+            #### Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Validation 🤖${{ steps.validate.outputs.stdout }}
+            #### Plan 📖\`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
+
             \`\`\`${process.env.PLAN}\`\`\`
+
             </details>
 
-            *Commited by: @${{ github.actor }}
-             Powered by: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
             github.issues.createComment({
               issue_number: context.issue.number,
